@@ -1,8 +1,8 @@
 import  java.util.Scanner;
-public class Main {
+public class NotOrtalamasiHesapla {
     public static void main(String[] args) {
 
-        double mat,fizik,kimya,tarih,muzik;
+        int mat,fizik,kimya,tarih,muzik;
         Scanner input=new Scanner(System.in);
 
         System.out.println("mat not:?");
