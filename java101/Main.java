@@ -2,7 +2,7 @@ import  java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        int mat,fizik,kimya,tarih,muzik;
+        double mat,fizik,kimya,tarih,muzik;
         Scanner input=new Scanner(System.in);
 
         System.out.println("mat not:?");
@@ -12,7 +12,7 @@ public class Main {
         tarih=input.nextInt();
         muzik=input.nextInt();
 
-        int toplam=mat+fizik+kimya+tarih+muzik;
+        double toplam=mat+fizik+kimya+tarih+muzik;
         double sonuc=toplam/5;
         System.out.println("ortalamanız:"+sonuc);
         System.out.println(sonuc>50  ? "geçti":"kaldı");
