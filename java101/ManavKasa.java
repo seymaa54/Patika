@@ -12,7 +12,6 @@ public class ManavKasa {
         double toplamTutar,armutKg , armutFiyat,elmaKg, elmaFiyat;
         double domatesKg , domatesFiyat , muzKg , muzFiyat;
         double patlicanKg , patlicanFiyat ;
-
         System.out.println("Armut Kilo ? :");
         armutKg = input.nextDouble();
         System.out.println("Elma  Kilo ? :");
@@ -28,8 +27,6 @@ public class ManavKasa {
         domatesFiyat = domatesKg * TOMATOES_PRICE;
         muzFiyat = muzKg * BANANA_PRICE;
         patlicanFiyat = patlicanKg * EGGPLANT_PRICE;
-
-
         toplamTutar = armutFiyat + elmaFiyat + domatesFiyat + muzFiyat + patlicanFiyat;
         System.out.format("Toplam Tutar: %.2f\n", toplamTutar);
     }

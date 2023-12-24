@@ -49,7 +49,6 @@ Kişi "Yolculuk Tipini" gidiş dönüş seçmiş ise bilet fiyatı üzerinden %2
 
 
     }
-
         double ucret=distance*0.10;
         System.out.println("Bilet ücretiniz:"+ucret);
         if(age<=12){
