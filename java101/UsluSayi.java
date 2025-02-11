@@ -23,6 +23,7 @@ public class UsluSayi {
         int sayi=sc.nextInt();
         System.out.println("kuvvet giriniz:");
         int kuvvet=sc.nextInt();
+        sc.close();
 
         int carpim=1;
         for(int i=1;i<=kuvvet;i++){

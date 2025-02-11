@@ -1,5 +1,4 @@
 import java.text.NumberFormat;
-import java.util.Currency;
 import java.util.Locale;
 import java.util.Scanner;
 
