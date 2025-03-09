@@ -1,148 +1,202 @@
-import com.sun.security.jgss.GSSUtil;
-
-import java.security.KeyStore;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
-
 public class MineSweeper {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        Random rnd = new Random();
+        boolean check = true;
+        String[][] mineMatris;
+        int placedMines = 0;
 
-
-    public class MineSwepper {
-        int rowNumber;
-        int colNumber;
-        String[][] mayinMap;
-        String[][] gameMap;
-        int mayinSayisi;
-        int a;
-        int b;
-        int count;
-        boolean isTrue = true;
-
-
-        public MineSwepper(int row, int col) {
-            this.rowNumber = row;
-            this.colNumber = col;
-            this.gameMap = new String[row][col];
-            this.mayinMap = new String[row][col];
-            this.mayinSayisi = (row * col) / 4;
-
-        }
-
-        public void mayinMap() {
-            for (int i = 0; i < rowNumber; i++) {
-                for (int j = 0; j < colNumber; j++) {
-                    mayinMap[i][j] = "-";
-                    gameMap[i][j] = "-";
-
-                }
-            }
-        }
-
-        public void randomNumber() {
-            Random r = new Random();
-            for (int i = 0; i < this.mayinSayisi; i++) {
-                int rsayi = r.nextInt(this.rowNumber);
-                int rsayi2 = r.nextInt(this.colNumber);
-                if (!this.mayinMap[rsayi][rsayi2].equals("*")) {
-                    this.mayinMap[rsayi][rsayi2] = "*";
-                }
-            }
-        }
-
-        public void printmayinMap() {
-            System.out.println("Mayinlarin Konumu");
-            randomNumber();
-            for (int i = 0; i < this.rowNumber; i++) {
-                for (int j = 0; j < this.colNumber; j++) {
-                    if (!this.mayinMap[i][j].equals("*")) {
-                        this.mayinMap[i][j] = "-";
-                    }
-                    System.out.print(this.mayinMap[i][j] + " ");
-                }
-                System.out.println();
-            }
-            System.out.println("==================================");
-            System.out.println("Mayin Tarlasi Oyununa Hosgeliniz !");
-        }
-
-        public void printGameMap() {
-            for (int i = 0; i < this.rowNumber; i++) {
-                for (int j = 0; j < this.colNumber; j++) {
-                    this.gameMap[i][j] = "-";
-                    System.out.print(this.gameMap[i][j] + " ");
-                }
-                System.out.println();
-
-            }
-        }
-
-        public void indisSecme() {
-            Scanner inp = new Scanner(System.in);
-            isTrue = false;
-            while (!isTrue) {
-                System.out.print("Satir Giriniz : ");
-                a = inp.nextInt();
-                System.out.print("Sutun Giriniz : ");
-                b = inp.nextInt();
-                if (a > rowNumber || b > colNumber) {
-                    System.out.println("Map sinirlari disinda secim yaptınız tekrar giriniz !");
-                    continue;
-                }
-                if (mayinMap[a][b].equals("*")) {
-                    System.out.println("Game Over!");
-                    break;
-
-                }
-                control();
-                if (finish()) {
-
-                    System.out.println("Tebrikler kazandiniz :)))))");
-                    break;
-                }
-            }
-        }
-
-        public void control() {
-            count = 0;
-            for (int i = (a - 1); i <= (a + 1); i++) {
-                for (int j = (b - 1); j <= (b + 1); j++) {
-                    if (i < 0 || j < 0 || i >= this.rowNumber || j >= this.colNumber) {
-                        continue;
-                    }
-                    if (this.mayinMap[i][j].equals("*")) {
-                        count++;
+        while (check) {
+            System.out.println("Oyun matrisinin satır ve sütun sayılarını giriniz: ");
+            int row = input.nextInt();
+            int col = input.nextInt();
+            if (row >= 2 && col >= 2) {
+                mineMatris = new String[row][col];
+                for (int i = 0; i < mineMatris.length; i++) {
+                    for (int j = 0; j < mineMatris[i].length; j++) {
+                        mineMatris[i][j] = "- ";
                     }
                 }
+                int mine = ((row * col) / 4);
+                // aynı mayının üstüne yerleştirilmesini önlemek için
+                while (placedMines < mine) {
+                        int rndRow = rnd.nextInt(row);
+                        int rndCol = rnd.nextInt(col);
+                        if (!mineMatris[rndRow][rndCol].equals("* ")) {
+                            mineMatris[rndRow][rndCol] = "* ";
+                            placedMines++;
+                        }
+                }
+
+                check = false;
+                System.out.println("Mayınların Konumu");
+                System.out.println("===========================");
+                printMatris(mineMatris);
+                startGame(mineMatris, input);
+            } else {
+                System.out.println("Satır ve sütun sayısı 2'den büyük olmalılıdır.");
             }
 
-            this.gameMap[a][b] = String.valueOf(count);
-            this.mayinMap[a][b] = String.valueOf(count);
-            for (int i = 0; i < this.rowNumber; i++) {
-                for (int j = 0; j < this.colNumber; j++) {
-                    System.out.print(this.gameMap[i][j] + " ");
-                }
-                System.out.println("");
-            }
         }
 
-        public boolean finish() {
-            for (int i = 0; i < this.rowNumber; i++) {
-                for (int j = 0; j < this.colNumber; j++) {
-                    if (this.mayinMap[i][j].equals("-")) {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-        public void run() {
-            mayinMap();
-            printmayinMap();
-            indisSecme();
-        }
     }
 
+    static void printMatris(String[][] matris) {
+        for (int i = 0; i < matris.length; i++) {
+            for (int j = 0; j < matris[0].length; j++) {
+                if (matris[i][j] == null) {
+                    matris[i][j] = "- ";
+                }
+                System.out.print(matris[i][j]);
+            }
+            System.out.println();
+        }
+
+    }
+
+    static boolean isContain(String[] coordinates, String val) {
+        for (String s : coordinates) {
+            if (s.equals(val)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    static void startGame(String[][] mineMatris, Scanner input) {
+        int slcRow;
+        int slcCol;
+        boolean checkCrdnt = true;
+        String[][] gameMatris = new String[mineMatris.length][mineMatris[0].length];
+
+        String[] coordinates = new String[0]; // Başlangıçta boş
+        int index = 0;
+
+        System.out.println("Mayın Tarlası Oyuna Hoşgeldiniz !");
+        printMatris(gameMatris);
+
+        while (checkCrdnt) {
+            System.out.print("Satır Giriniz : ");
+            slcRow = input.nextInt();
+            System.out.print("Sütun Giriniz : ");
+            slcCol = input.nextInt();
+            String crd = slcRow + "" + slcCol;
+            System.out.println("===========================");
+            if (!isContain(coordinates, crd)) {
+                if ((slcRow > 0 && slcCol > 0) && (slcRow <= gameMatris.length && slcCol <= gameMatris[0].length)) {
+                    // Koşul doğruysa yapılacak işlemler
+                    coordinates = Arrays.copyOf(coordinates, coordinates.length + 1);
+                    coordinates[index] = crd;
+                    index++;
+
+                    if (!playGame(gameMatris, mineMatris, slcRow, slcCol)) {
+                        System.out.println("Game Over!! ===========================");
+                        checkCrdnt = false; // Mayına bastı, oyun bitti.
+                    } else {
+
+                        for (int i = 0; i < gameMatris.length; i++) {
+                            for (int j = 0; j < gameMatris[0].length; j++) {
+                                if (!mineMatris[i][j].equals("* ")&& gameMatris[i][j].equals("- ")) {
+                                    checkCrdnt = true; // Hala açılmamış hücre var, oyun devam etmeli
+                                    printMatris(gameMatris);
+                                    break; // İç döngüyü kır
+                                }
+                                else {
+                                      checkCrdnt=false;
+                                }
+                            }
+                            if (checkCrdnt) break; // Eğer "-" bulunduysa dış döngüyü de kır
+                        }
+                    
+                        if (!checkCrdnt) { // Eğer hiç "-" kalmadıysa kazanmış demektir
+                        for (int i = 0; i < mineMatris.length; i++) {
+                            for (int j = 0; j < mineMatris[0].length; j++) {
+                                if (mineMatris[i][j] != "* ") {
+                                    mineMatris[i][j] = calculateDangerCount(mineMatris, i, j) + " ";
+                                }
+            
+                            }
+                        }
+
+                            printMatris(mineMatris);
+                            System.out.println("TEBRİKLER!! ===========================");
+                        }
+                    }
+                    
+                } else {
+                    System.out.println("Koordinat Bulunamadı! ");
+                }
+
+            } else {
+                System.out.println("Bu koordinat daha önce seçildi, başka bir koordinat girin");
+            }
+
+        }
+
+    }
+
+    static String calculateDangerCount(String[][] mineMatris, int slcRowNew, int slcColNew) {
+        int danger = 0;
+        for (int a = -1; a < 2; a++) {
+            for (int b = -1; b < 2; b++) {
+                if ((slcRowNew + a >= 0 && slcRowNew + a < mineMatris.length) && // Satır sınırları içinde
+                        (slcColNew + b >= 0 && slcColNew + b < mineMatris[0].length)) { // Sütun sınırları
+                    if (mineMatris[slcRowNew + a][slcColNew + b].equals("* ")) {
+                        danger++; // Mayın varsa danger sayısını artır
+                    }
+                }
+
+            }
+        }
+        return String.valueOf(danger);
+    }
+
+    static boolean playGame(String[][] gameMatris, String[][] mineMatris, int slcRow, int slcCol) {
+        int slcRowNew = slcRow - 1;
+        int slcColNew = slcCol - 1;
+
+        if (mineMatris[slcRowNew][slcColNew].equals("* ")) {
+
+            for (int i = 0; i < mineMatris.length; i++) {
+                for (int j = 0; j < mineMatris[0].length; j++) {
+                    if (mineMatris[i][j] != "* ") {
+                        mineMatris[i][j] = calculateDangerCount(mineMatris, i, j) + " ";
+                    }
+
+                }
+            }
+            printMatris(mineMatris);
+            return false; // Mayına basarsan oyun biter!
+
+        } else {
+
+            /*
+             * slcrow=-1
+             * 
+             * mineMatris[slcRow-1][slcCol-1] //Sol üst çapraz
+             * mineMatris[slcRow-1][slcCol] //üst
+             * mineMatris[slcRow-1][slcCol+1] //Sağ üst çapraz
+             * 
+             * slcrow=1
+             * mineMatris[slcRow+1][slcCol-1] //Sol alt çapraz
+             * 
+             * mineMatris[slcRow+1][slcCol] //alt
+             * mineMatris[slcRow+1][slcCol+1] //Sağ alt çapraz
+             * 
+             * 
+             * slcrow=0
+             * mineMatris[slcRow][slcCol-1] //sol
+             * mineMatris[slcRow][slcCol+1] //sağ
+             */
+
+            gameMatris[slcRowNew][slcColNew] = calculateDangerCount(mineMatris, slcRowNew, slcColNew) + " ";
+
+            return true;
+        }
+    }
 
 }
